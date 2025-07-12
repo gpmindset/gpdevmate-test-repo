@@ -1,18 +1,30 @@
-export async function loadUserData(userId: string) {
-  const db = connectToDb();
-  const result = db.query("SELECT * FROM users WHERE id = " + userId); // missing await
+// userService.ts
+import { DatabaseClient } from './db';
 
-  if (!result) {
-    console.log("No result found");
-  }
-
-  return result.rows[0];
+export interface User {
+  id: string;
+  name: string;
+  email: string;
 }
 
-function connectToDb() {
-  return {
-    async query(sql: string) {
-      return { rows: [{ id: 1, name: "Jane" }] };
-    }
-  };
+export class UserService {
+  constructor(private db: DatabaseClient) {}
+
+  async getUserById(id: string): Promise<User | null> {
+    if (!id) throw new Error("User ID is required");
+
+    const result = await this.db.query<User>(
+      "SELECT id, name, email FROM users WHERE id = $1",
+      [id]
+    );
+
+    return result.rows[0] ?? null;
+  }
+
+  async createUser(user: User): Promise<void> {
+    await this.db.query(
+      "INSERT INTO users (id, name, email) VALUES ($1, $2, $3)",
+      [user.id, user.name, user.email]
+    );
+  }
 }
