@@ -5,7 +5,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-}
+} 
 
 export class UserService {
   constructor(private db: DatabaseClient) {}
