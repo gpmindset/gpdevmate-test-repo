@@ -18,7 +18,7 @@ export class UserService {
       [id] 
     );
 
-    return result.rows[0] ?? null;
+    return result.rows[0] ?? null; 
   }
 
   async createUser(user: User): Promise<void> {
