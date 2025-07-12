@@ -15,7 +15,7 @@ export class UserService {
 
     const result = await this.db.query<User>(
       "SELECT id, name, email FROM users WHERE id = $1",
-      [id] 
+      [id]  
     );
 
     return result.rows[0] ?? null; 
