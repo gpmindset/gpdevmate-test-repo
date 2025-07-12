@@ -24,4 +24,4 @@ const unusedVar = 123;
 
 function add(a, b, c) {
     return a + b
-}
+} 
