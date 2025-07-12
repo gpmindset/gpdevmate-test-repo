@@ -6,7 +6,7 @@ function fetchData() {
         .catch(error => {
             console.log("Error:", error)
         })
-    return data
+    return data 
 }
 
 let userName = "John"
