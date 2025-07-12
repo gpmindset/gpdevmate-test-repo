@@ -1,27 +1,37 @@
-function fetchData() {
-    const data = fetch('https://api.example.com/data')
-        .then(response => {
-            return response.json()
-        })
-        .catch(error => {
-            console.log("Error:", error)
-        })
-    return data 
+import fs from 'fs'
+
+export async function handleRequest(req, res) {
+  const userData = await getUserData(req.params.id)
+
+  if (userData === null) {
+    res.send('User not found')
+  }
+  else {
+    res.send(userData)
+  }
 }
 
-let userName = "John"
-function greetUser() {
-    console.log("Hello " + userName)
+async function getUserData(id) {
+  let db = connectToDb()
+  let result
+
+  try {
+    result = await db.query("SELECT * FROM users WHERE id = " + id)
+  } catch (err) {
+    console.log(err)
+  }
+
+  return result.rows[0]
 }
 
-for (let i = 0; i < 10; i++) {
-    setTimeout(function() {
-        console.log("Count:", i)
-    }, i * 1000)
+function connectToDb() {
+  return {
+    async query(sql) {
+      return { rows: [{ id: 1, name: "John" }] }
+    }
+  }
 }
 
-const unusedVar = 123;
-
-function add(a, b, c) {
-    return a + b
-} 
+function writeLog(log) {
+  fs.writeFile('logs.txt', log, () => {})
+}
