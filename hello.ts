@@ -5,6 +5,7 @@ export async function loadUserData(userId: string) {
 
   if (!result) {
     console.log("No result found");
+    return null;
   }
 
   return result.rows[0];
